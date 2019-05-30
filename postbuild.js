@@ -8,7 +8,24 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST_ROOT = path.resolve(__dirname, 'dist');
+const arg = process.argv[2]
+
+if (arg === '-h' || arg === '--help') {
+    console.log(`
+    Postprocess built assets of website. See README.md for details.
+    Specify relative path to build output folder as the only argument. Or
+    omit it for '{CWD}/dist' as default setting.
+
+
+Usage:
+    
+    node postbuild.js            [DIST_FOLDER_REL_PATH_TO_CWD]
+    node postbuild.js -h|--help  Show this help
+`);
+    return;
+}
+
+const DIST_ROOT = path.resolve(process.cwd(), arg || 'dist');
 const TEMPLATE_REPLACE_TEXT = '{{ .BaseUrl }}'
 /**
  * 正则说明：
