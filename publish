@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd dist/
+aws s3 sync . s3://quali-landing --acl public-read
