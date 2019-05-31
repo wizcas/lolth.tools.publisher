@@ -29,14 +29,13 @@ vorpal
     .action(args => {
         const cmd = `aws s3 sync ${args.folder}/ ${args.bucket} --acl public-read`
         console.log('Executing:', cmd);
-        exec(cmd, (err, stdout, stderr) => {
-            if (err) {
-                console.error(`exec error: ${err}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
+        const child = exec(cmd, {
+            detached: true,
+            stdio: ['ignore', 1, 2],
         });
+        child.unref();
+        child.stdout.pipe(process.stdout);
+        child.stderr.pipe(process.stderr);
     });
 
 printTitle();
