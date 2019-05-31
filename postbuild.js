@@ -26,13 +26,13 @@ Usage:
 }
 
 const DIST_ROOT = path.resolve(process.cwd(), arg || 'dist');
-const TEMPLATE_REPLACE_TEXT = '{{ .BaseUrl }}'
+const TEMPLATE_REPLACE_TEXT = '{{ .BaseURL }}'
 /**
  * 正则说明：
  * 搜索html文件中的本地url链接，并忽略：
  * - `http:`和`https:`开头的
  * - `//`开头的，因为之前碰到过阿里的特殊地址，形如`//g.alicdn.com/`
- * - 形如`{{ .BaseUrl }}`的已经包含BaseUrl占位符的
+ * - 形如`{{ .BaseURL }}`的已经包含BaseURL占位符的
  * 
  * 匹配结果group说明：
  * 
@@ -41,7 +41,7 @@ const TEMPLATE_REPLACE_TEXT = '{{ .BaseUrl }}'
  * - `2`: Attribute名称，如`src`
  * - `4`: 实际资源链接地址，如`main.js`
  */
-const SRC_REGEX = /((src|href)=")(?!(http:|https:|\/\/|{{ \.BaseUrl }}))(.+)"/;
+const SRC_REGEX = /((src|href)=")(?!(http:|https:|\/\/|{{ \.BaseURL }}))(.+)"/;
 
 function makeIndexTemplate() {
     console.log(`\x1b[33m
