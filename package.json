@@ -1,15 +1,19 @@
 {
-  "name": "lolth.tools.publisher",
-  "version": "1.0.0",
+  "name": "@quasar-ai/lolth.tools.publisher",
+  "version": "0.1.0",
   "description": "Static website publish tools",
   "main": "index.js",
   "repository": "git@bitbucket.org:quasar-ai/lolth.tools.publisher.git",
   "author": "0x1C <chen@wizcas.me>",
-  "private": true,
+  "license": "MIT",
+  "bin": {
+    "lopub": "./index.js"
+  },
   "scripts": {
-    "tests.tpl": "./postbuild tpl tests -d"
+    "tests.tpl": "./index.js tpl tests -d"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.3",
     "vorpal": "^1.12.0"
   }

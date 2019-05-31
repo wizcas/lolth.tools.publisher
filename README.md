@@ -14,7 +14,7 @@
 
 - 将静态资源发布到服务器，目前仅支持s3，需要预先配置aws-cli
 
-## 使用说明
+## Git Subtree使用说明
 
 #### 配置项目
 
@@ -32,8 +32,8 @@ git subtree add --prefix=tools/publisher publisher master
     ...
     "scripts":{
         ...
-        "postbuild": "node tools/publisher/postbuild.js",
-        "push": "tools/publisher/publish"
+        "postbuild": "tools/publisher/postbuild tpl",
+        "push": "tools/publisher/publish <S3-BUCKET> <DIST_FOLDER>"
     }
     ...
 }
@@ -41,8 +41,10 @@ git subtree add --prefix=tools/publisher publisher master
 
 其中：
 
-- `postbuild`会在`build`命令（如果有定义）后自动执行，也可手动执行。可以在`postbuild`命令后加入参数作为网站前端的Build输出目录，如`node tools/publisher/postbuild.js dist/release`。
-- `push`命令用于在网站编译完成后发布到静态存储空间。
+- `postbuild`会在`build`命令（如果有定义）后自动执行，也可手动执行。可以在`postbuild`命令后加入参数作为网站前端的Build输出目录，如`tools/publisher/postbuild dist/release`。
+- `push`命令用于在网站编译完成后发布到静态存储空间。两个参数分别为:
+  - `S3-BUCKET`: S3存储桶ID，形如`s3://foo-bucket`
+  - `DIST_FOLDER`: 要上传文件所在的目录
 
 #### 更新publisher
 

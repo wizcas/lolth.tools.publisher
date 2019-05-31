@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd dist/
-aws s3 sync . s3://quali-landing --acl public-read
+cd $2/
+aws s3 sync . $1 --acl public-read
