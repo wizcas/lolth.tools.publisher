@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd $2/
-aws s3 sync . $1 --acl public-read

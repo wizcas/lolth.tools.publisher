@@ -1,11 +1,12 @@
 const tpl = require('./tpl');
 const validators = require('../helpers/validators');
+const con = require('../helpers/con');
 
 function genTemplate(rootDir, dryrun) {
     console.log(`\x1b[33m
 ⏳ Generating templates @ ${rootDir}...\x1b[0m`);
     if (dryrun) {
-        console.log(`\x1b[31m>>> DRY RUN MODE`);
+        con.printDryRun();
     }
     tpl.walk(rootDir, dryrun ? tpl.dryrun : tpl.save);
     console.log(`\x1b[32m
@@ -24,5 +25,4 @@ module.exports = function (vorpal, options) {
             const isDryRun = args.options.dryrun;
             genTemplate(args.rootDir, isDryRun);
         });
-    vorpal.parse(process.argv);
 };
