@@ -1,65 +1,50 @@
 # lolth.tools.publisher
 
-用于打包发布网站静态资源的工具库
+A toolset for publishing static website, companied with project `lolth.server.static`
 
-## 功能说明
+It is currently for:
 
-#### `postbuild.js` *NODE SCRIPT*
+- Convert HTML files into handlebars templates with `{{ .BaseURL }}` placeholders for any relative path
+- Publish asset files to S3 storage
 
-用于在`yarn build`执行后处理编译生成的资源文件
+## Install
 
-- 为HTML文件中的相对资源路径添加模板占位符，以便WebServer渲染时添加静态资源主机路径
+Install with yarn 
 
-#### `publish` *SHELL*
-
-- 将静态资源发布到服务器，目前仅支持s3，需要预先配置aws-cli
-
-## Git Subtree使用说明
-
-#### 配置项目
-
-使用`git subtree`将该仓库引入到网站前端项目中。
-
-``` shell
-git remote add publisher git@bitbucket.org:quasar-ai/lolth.tools.publisher.git
-git subtree add --prefix=tools/publisher publisher master
+``` bash
+yarn -D lolth.tools.publisher
 ```
 
-然后在前端项目的*package.json*文件中定义脚本：
+or npm
 
-``` json
-{
-    ...
-    "scripts":{
-        ...
-        "postbuild": "tools/publisher/postbuild tpl",
-        "push": "tools/publisher/publish <S3-BUCKET> <DIST_FOLDER>"
-    }
-    ...
-}
+``` bash
+npm install -D lolth.tools.publisher
 ```
 
-其中：
+## Make Templates
 
-- `postbuild`会在`build`命令（如果有定义）后自动执行，也可手动执行。可以在`postbuild`命令后加入参数作为网站前端的Build输出目录，如`tools/publisher/postbuild dist/release`。
-- `push`命令用于在网站编译完成后发布到静态存储空间。两个参数分别为:
-  - `S3-BUCKET`: S3存储桶ID，形如`s3://foo-bucket`
-  - `DIST_FOLDER`: 要上传文件所在的目录
-
-#### 更新publisher
-
-在前端项目中使用命令：
-
-``` shell
-git subtree pull --prefix=tools/publisher publisher master
+``` bash
+lopath tpl [ROOT_DIR] [-d|--dryrun]
 ```
 
-#### 将前端项目中的改动反向推回到publisher
+Scan HTML files recursively in `ROOT_DIR` and make templates. Note that if `ROOT_DIR` is not specified, folder *dist* will be used as default.
 
-不建议直接将改动推回publisher项目的master分支。如果有修改，请推到hotfix分支，然后在publisher项目中手动处理merge/pull request。
+**HTML files will be overridden by this command.**
 
-要进行推回操作，请执行如下命令（替换`<FIX_NAME>`为可以简要描述hotfix的一个单词或词组）：
+You can run this command with flag `-d` or `--dryrun` to test if there's any error and for checking if all relative paths are detected.
 
-``` shell
-git subtree push --prefix=tools/publisher publisher hotfix/<FIX_NAME>
+## Publish To Server
+
+##### To AWS S3
+
+> For now this is the only service supported. More services may be added on need.
+
+``` bash
+lopath pub s3 <BUCKET> [ROOT_DIR] [-d|--dryrun]
 ```
+
+Sync and push files in `ROOT_DIR` to an AWS S3 bucket. Note that if `ROOT_DIR` is not specified, folder *dist* will be used as default.
+
+`BUCKET` refers to an S3 bucket identifier, which must starts with `s3://`. Take `s3://foo-bucket` as an example.
+
+You can run this command with flag `-d` or `--dryrun` to check files to be synchronized before actually pushing them.

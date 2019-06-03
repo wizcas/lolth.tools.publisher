@@ -11,9 +11,13 @@ function printTitle() {
         chalk.white('LO') + chalk.magenta('LTH ') +
         chalk.white('PUB') + chalk.magenta('LISHER');
     console.log(`
-${chalk.magenta('-------------------------------')}
-        ${name}
-${chalk.magenta('-------------------------------')}
+${chalk.magenta('-------------------------------------------')}
+  / _ \\
+\\_\\(_)/_/   ${name}
+ _//o\\\\_    ${chalk.green('toolset of website publication')}
+  /   \\        
+${chalk.magenta('-------------------------------------------')}
+run ${chalk.yellow('lopub help')} for instructions
     `);
 }
 
